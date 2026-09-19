@@ -1,6 +1,6 @@
 import React from 'react';
 import { UsageCard } from './UsageCard';
-import { QuotaCredentials } from './QuotaCredentials';
+import { QuotaCredentials, isQuotaCredentialProvider } from './QuotaCredentials';
 import { QUOTA_PROVIDERS } from '@/lib/quota';
 import { useQuotaAutoRefresh, useQuotaStore } from '@/stores/useQuotaStore';
 import { updateDesktopSettings } from '@/lib/persistence';
@@ -85,7 +85,10 @@ export const UsagePage: React.FC = () => {
       ? selectedResult.error
       : null;
   const showInDropdown = selectedProviderId ? dropdownProviderIds.includes(selectedProviderId) : false;
-  const hasCredentialsForm = selectedProviderId === 'exe-dev' || selectedProviderId === 'ollama-cloud' || selectedProviderId === 'cursor';
+  const credentialProviderId = selectedProviderId && isQuotaCredentialProvider(selectedProviderId)
+    ? selectedProviderId
+    : null;
+  const hasCredentialsForm = credentialProviderId !== null;
   const handleDropdownToggle = React.useCallback((enabled: boolean) => {
     if (!selectedProviderId) {
       return;
@@ -213,8 +216,8 @@ export const UsagePage: React.FC = () => {
         </div>
       )}
 
-      {(selectedProviderId === 'exe-dev' || selectedProviderId === 'ollama-cloud' || selectedProviderId === 'cursor') && (
-        <QuotaCredentials providerId={selectedProviderId} providerName={providerName} />
+      {credentialProviderId && (
+        <QuotaCredentials providerId={credentialProviderId} providerName={providerName} />
       )}
 
       {usage?.windows && Object.keys(usage.windows).length > 0 && (
