@@ -5,11 +5,7 @@ import { toast } from '@/components/ui';
 import { useI18n } from '@/lib/i18n';
 import { runtimeFetch } from '@/lib/runtime-fetch';
 
-export type QuotaCredentialProviderId = 'exe-dev' | 'ollama-cloud' | 'cursor' | 'zenmux';
-
-export const isQuotaCredentialProvider = (id: string): id is QuotaCredentialProviderId => (
-  id === 'exe-dev' || id === 'ollama-cloud' || id === 'cursor' || id === 'zenmux'
-);
+type QuotaCredentialProviderId = 'exe-dev' | 'ollama-cloud' | 'cursor' | 'zenmux';
 
 type Status = { configured: boolean; secretMasked?: string };
 type CredentialPayload = {

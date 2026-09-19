@@ -1,6 +1,6 @@
 import React from 'react';
 import { UsageCard } from './UsageCard';
-import { QuotaCredentials, isQuotaCredentialProvider } from './QuotaCredentials';
+import { QuotaCredentials } from './QuotaCredentials';
 import { QUOTA_PROVIDERS } from '@/lib/quota';
 import { useQuotaAutoRefresh, useQuotaStore } from '@/stores/useQuotaStore';
 import { updateDesktopSettings } from '@/lib/persistence';
@@ -85,7 +85,10 @@ export const UsagePage: React.FC = () => {
       ? selectedResult.error
       : null;
   const showInDropdown = selectedProviderId ? dropdownProviderIds.includes(selectedProviderId) : false;
-  const credentialProviderId = selectedProviderId && isQuotaCredentialProvider(selectedProviderId)
+  const credentialProviderId = selectedProviderId === 'exe-dev'
+    || selectedProviderId === 'ollama-cloud'
+    || selectedProviderId === 'cursor'
+    || selectedProviderId === 'zenmux'
     ? selectedProviderId
     : null;
   const hasCredentialsForm = credentialProviderId !== null;
